@@ -116,8 +116,9 @@ class Plugin {
 			$this->plugin_dirname . 'languages/'
 		);
 
-		// Register the main block in Gutenberg.
+		// Register the main block and slide in Gutenberg.
 		register_block_type( $this->plugin_path . 'dist/blocks/slideshow/block.json' );
+		register_block_type( $this->plugin_path . 'dist/blocks/slide/block.json' );
 
 		// Setup translations for the main block.
 		wp_set_script_translations(
