@@ -11,7 +11,7 @@ import { __ } from '@wordpress/i18n';
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import { useBlockProps } from '@wordpress/block-editor';
+import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -20,6 +20,9 @@ import { useBlockProps } from '@wordpress/block-editor';
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
 import './editor.scss';
+
+// Only allow core/cover blocks to be added
+const ALLOWED_BLOCKS = ['core/cover'];
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -31,8 +34,13 @@ import './editor.scss';
  */
 export default function Edit() {
 	return (
-		<p {...useBlockProps()}>
-			{__('Slideshow – hello from the editor!', 'slideshow')}
-		</p>
+		<div {...useBlockProps()}>
+			<p>{__('Slideshow Block', 'slideshow')}</p>
+			<InnerBlocks
+				allowedBlocks={ALLOWED_BLOCKS} // Limit to Cover blocks
+				templateLock={false}           // Allow freeform editing of slides
+				renderAppender={InnerBlocks.ButtonBlockAppender} // Appender for adding more blocks
+			/>
+		</div>
 	);
 }
