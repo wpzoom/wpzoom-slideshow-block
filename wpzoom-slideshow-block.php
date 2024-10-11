@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Slideshow Block by WPZOOM
+ * Plugin Name: WPZOOM Slideshow Block
  * Plugin URI: https://wordpress.org/plugins/wpzoom-slideshow-block/
  * Description: Quickly add a Gutenberg slideshow block with fast performance.
  * Version: 1.0
