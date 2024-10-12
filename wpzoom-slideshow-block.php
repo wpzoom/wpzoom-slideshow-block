@@ -3,7 +3,7 @@
  * Plugin Name: Slideshow Block by WPZOOM
  * Plugin URI: https://wordpress.org/plugins/wpzoom-slideshow-block/
  * Description: Quickly add a Gutenberg slideshow block with fast performance.
- * Version: 1.0
+ * Version: 1.1.2
  * Author: WPZOOM
  * Author URI: https://www.wpzoom.com/
  * Text Domain: wpzoom-slideshow-block
@@ -96,6 +96,7 @@ class Plugin {
 
 		// Add the WPZOOM block category, if needed.
 		add_filter( 'block_categories_all', array( $this, 'block_categories' ), 10, 2 );
+		add_action( 'enqueue_block_assets', array( $this, 'wpzoom_enqueue_swiper_assets' ) );
 
 		// Add some useful CSS classes.
 		add_filter( 'body_class', array( $this, 'body_class' ) );
@@ -126,6 +127,36 @@ class Plugin {
 			'wpzoom-slideshow-block',
 			$this->plugin_path . 'languages/'
 		);
+	}
+
+	/**
+	 * Enqueues the Swiper assets if the block is on the page.
+	 *
+	 * @since  1.1.2
+	 * @return void
+	 */
+	function wpzoom_enqueue_swiper_assets() {
+		// Register Swiper styles and scripts.
+		wp_register_style(
+			'wpzoom-swiper-css',
+			plugins_url( 'assets/css/swiper-bundle.min.css', __FILE__ ),
+			array(),
+			'11.1.14'
+		);
+	
+		wp_register_script(
+			'wpzoom-swiper-js',
+			plugins_url( 'assets/js/swiper-bundle.min.js', __FILE__ ),
+			array(),
+			'11.1.14',
+			true
+		);
+	
+		// Conditionally enqueue them if the block is on the page.
+		if ( has_block( 'wpzoom/slideshow' ) ) {
+			wp_enqueue_style( 'wpzoom-swiper-css' );
+			wp_enqueue_script( 'wpzoom-swiper-js' );
+		}
 	}
 
 	/**
@@ -205,5 +236,26 @@ class Plugin {
 		}
 
 		return $classes;
+	}
+
+	/**
+	 * Renders the slideshow block.
+	 *
+	 * @since  1.1.2
+	 * @param  array $attributes The block attributes.
+	 * @return string            The rendered block content.
+	 */
+	public function render_slideshow_block( $attributes ) {
+		$slides = $attributes['slides'] ?? [];
+
+		// If there are no slides, return early.
+		if ( empty( $slides ) ) {
+			return '';
+		}
+
+		// Render the block.
+		ob_start();
+		include $this->plugin_path . 'dist/blocks/slideshow/block.php';
+		return ob_get_clean();
 	}
 }

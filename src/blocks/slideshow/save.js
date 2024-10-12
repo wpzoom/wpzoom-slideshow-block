@@ -17,9 +17,19 @@ import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
  */
 export default function save() {
 	return (
-		<div {...useBlockProps.save()}>
-			{/* Render the inner blocks (in this case, the Cover blocks) */}
-			<InnerBlocks.Content />
-		</div>
+		<>
+			<div className="slideshow-container swiper" {...useBlockProps.save()}>
+				<div className='swiper-wrapper'>
+					<div class="swiper-slide">Slide 1</div>
+					<div class="swiper-slide">Slide 2</div>
+					<div class="swiper-slide">Slide 3</div>
+				</div>
+
+				<div class="swiper-pagination"></div>
+
+				<div class="swiper-button-prev"></div>
+				<div class="swiper-button-next"></div>
+			</div>
+		</>
 	);
 }
