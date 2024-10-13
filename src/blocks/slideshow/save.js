@@ -15,22 +15,28 @@ import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
  *
  * @return {Element} Element to render.
  */
-export default function save() {
+export default function save({ attributes }) {
+	const { autoplay, loop, speed, spaceBetween, slidesPerView, uniqueId } = attributes;
+
+	const swiperOptions = JSON.stringify({
+		autoplay,
+		loop,
+		speed,
+		spaceBetween,
+		slidesPerView
+	});
+
 	const blockProps = useBlockProps.save();
-	blockProps.className = `swiper-wrapper ${blockProps.className || ''}`;
+	blockProps.className += ' swiper-wrapper';
 
 	return (
-		<div>
-			<div className="slideshow-container swiper" >
-				<div {...blockProps}>
-					<InnerBlocks.Content />
-				</div>
-
-				<div class="swiper-pagination"></div>
-
-				<div class="swiper-button-prev"></div>
-				<div class="swiper-button-next"></div>
+		<div id={uniqueId} className={`slideshow-container swiper`} data-swiper={swiperOptions}>
+			<div {...blockProps}>
+				<InnerBlocks.Content />
 			</div>
+			<div className="swiper-pagination"></div>
+			<div className="swiper-button-prev"></div>
+			<div className="swiper-button-next"></div>
 		</div>
 	);
 }

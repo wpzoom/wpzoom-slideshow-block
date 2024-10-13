@@ -1,25 +1,21 @@
 import Swiper from 'swiper/bundle';
 import 'swiper/css/bundle';
 
-const swiper = new Swiper('.slideshow-container', {
-    // Optional parameters
-    direction: 'horizontal',
-    cssMode: true,
-    loop: true,
-    speed: 1000,
-    spacecBetween: 100,
-    slidesPerView: 1,
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.slideshow-container').forEach(function (slideshow) {
+        const slideshowOptions = JSON.parse(slideshow.dataset.swiper);
 
-    // If we need pagination
-    pagination: {
-        el: '.swiper-pagination',
-    },
+        console.log(slideshow.id);
 
-    // Navigation arrows
-    navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-    },
+        const swiper = new Swiper(`#${slideshow.id}`, {
+            ...slideshowOptions, // Spread the options from the data attribute
+            pagination: {
+                el: '.swiper-pagination',
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+    });
 });
-
-console.log(swiper);
