@@ -17,12 +17,12 @@ import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
  */
 export default function save() {
 	return (
-		<div {...useBlockProps.save()}>
+		<div>
 			<div className="slideshow-container swiper" >
 				<div className='swiper-wrapper'>
-					<div class="swiper-slide">Slide 1</div>
-					<div class="swiper-slide">Slide 2</div>
-					<div class="swiper-slide">Slide 3</div>
+					<div {...useBlockProps.save()}>
+						<InnerBlocks.Content />
+					</div>
 				</div>
 
 				<div class="swiper-pagination"></div>

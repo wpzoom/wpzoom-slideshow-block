@@ -22,7 +22,7 @@ import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 import './editor.scss';
 
 // Only allow core/cover blocks to be added
-const ALLOWED_BLOCKS = ['core/cover', 'wpzoom/slide'];
+const ALLOWED_BLOCKS = ['wpzoom/slide'];
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -37,7 +37,7 @@ export default function Edit() {
 		<div {...useBlockProps()}>
 			<p>{__('Slideshow Block', 'slideshow')}</p>
 			<InnerBlocks
-				allowedBlocks={ALLOWED_BLOCKS} // Limit to Cover and Slide blocks
+				allowedBlocks={ALLOWED_BLOCKS} // Limit to Slide blocks
 				templateLock={false}           // Allow freeform editing of slides
 				renderAppender={InnerBlocks.ButtonBlockAppender} // Appender for adding more blocks
 			/>
