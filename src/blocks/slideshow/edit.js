@@ -37,7 +37,7 @@ import { useEffect } from '@wordpress/element';
  * @return {Element} Element to render.
  */
 export default function Edit({ attributes, setAttributes }) {
-	const { autoplay, loop, speed, spaceBetween, slidesPerView, uniqueId } = attributes;
+	const { useNavigation, usePagination, autoplay, loop, speed, spaceBetween, slidesPerView, uniqueId } = attributes;
 
 	// Generate a unique ID only if one doesn't already exist
 	useEffect(() => {
@@ -51,6 +51,16 @@ export default function Edit({ attributes, setAttributes }) {
 		<>
 			<InspectorControls>
 				<PanelBody title="Slideshow Settings" initialOpen={true}>
+					<ToggleControl
+						label="Navigation"
+						checked={useNavigation}
+						onChange={(value) => setAttributes({ useNavigation: value })}
+					/>
+					<ToggleControl
+						label="Pagination"
+						checked={usePagination}
+						onChange={(value) => setAttributes({ usePagination: value })}
+					/>
 					<ToggleControl
 						label="Autoplay"
 						checked={autoplay}

@@ -14,6 +14,14 @@
 		"uniqueId": {
 			"type": "string"
 		},
+		"useNavigation": {
+			"type": "boolean",
+			"default": true
+		},
+		"usePagination": {
+			"type": "boolean",
+			"default": true
+		},
 		"autoplay": {
 			"type": "boolean",
 			"default": true
