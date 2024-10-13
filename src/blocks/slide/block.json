@@ -5,7 +5,7 @@
 	"version": "0.1.0",
 	"title": "Slide",
 	"category": "wpzoom-blocks",
-	"icon": "smiley",
+	"icon": "column",
 	"description": "Example block scaffolded with Create Block tool.",
 	"supports": {
 		"html": false

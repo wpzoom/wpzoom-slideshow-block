@@ -16,13 +16,14 @@ import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
  * @return {Element} Element to render.
  */
 export default function save() {
+	const blockProps = useBlockProps.save();
+	blockProps.className = `swiper-wrapper ${blockProps.className || ''}`;
+
 	return (
 		<div>
 			<div className="slideshow-container swiper" >
-				<div className='swiper-wrapper'>
-					<div {...useBlockProps.save()}>
-						<InnerBlocks.Content />
-					</div>
+				<div {...blockProps}>
+					<InnerBlocks.Content />
 				</div>
 
 				<div class="swiper-pagination"></div>
