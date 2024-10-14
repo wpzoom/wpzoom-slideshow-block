@@ -3,24 +3,60 @@ import 'swiper/css/bundle';
 
 document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.slideshow-container').forEach(function (slideshow) {
-        const { useNavigation, usePagination, ...swiperOptions } = JSON.parse(slideshow.dataset.swiper);
+        const {
+            useNavigation,
+            usePagination,
+            useScrollbar,
+            autoplay,
+            loop,
+            speed,
+            spaceBetween,
+            slidesPerView,
+            effect,
+            direction,
+            freeMode,
+            centeredSlides,
+            cssMode,
+            grid
+        } = JSON.parse(slideshow.dataset.swiper);
 
+        const swiperOptions = {
+            autoplay,
+            loop,
+            speed,
+            spaceBetween,
+            slidesPerView,
+            effect,
+            direction,
+            freeMode,
+            centeredSlides,
+            cssMode,
+            grid,
+        };
+
+        // Add navigation if enabled
         if (useNavigation) {
             swiperOptions.navigation = {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
+                nextEl: `#${slideshow.id} .swiper-button-next`,
+                prevEl: `#${slideshow.id} .swiper-button-prev`,
             };
         }
 
+        // Add pagination if enabled
         if (usePagination) {
             swiperOptions.pagination = {
-                el: '.swiper-pagination',
+                el: `#${slideshow.id} .swiper-pagination`,
             };
         }
 
+        // Add scrollbar if enabled
+        if (useScrollbar) {
+            swiperOptions.scrollbar = {
+                el: `#${slideshow.id} .swiper-scrollbar`,
+            };
+        }
 
-        const swiper = new Swiper(`#${slideshow.id}`, {
-            ...swiperOptions, // Spread the options from the data attribute
-        });
+        // Initialize Swiper with the options
+        new Swiper(`#${slideshow.id}`, swiperOptions);
     });
 });

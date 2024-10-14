@@ -2,11 +2,11 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "wpzoom/slideshow",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "title": "Slideshow",
   "category": "wpzoom-blocks",
   "icon": "columns",
-  "description": "Example block scaffolded with Create Block tool.",
+  "description": "Slideshow block with customizable settings.",
   "supports": {
     "html": false
   },
@@ -21,6 +21,10 @@
     "usePagination": {
       "type": "boolean",
       "default": true
+    },
+    "useScrollbar": {
+      "type": "boolean",
+      "default": false
     },
     "autoplay": {
       "type": "boolean",
@@ -41,6 +45,50 @@
     "slidesPerView": {
       "type": "number",
       "default": 1
+    },
+    "effect": {
+      "type": "string",
+      "default": "slide"
+    },
+    "direction": {
+      "type": "string",
+      "default": "horizontal"
+    },
+    "freeMode": {
+      "type": "boolean",
+      "default": false
+    },
+    "centeredSlides": {
+      "type": "boolean",
+      "default": false
+    },
+    "cssMode": {
+      "type": "boolean",
+      "default": false
+    },
+    "gridRows": {
+      "type": "number",
+      "default": 1
+    },
+    "controller": {
+      "type": "boolean",
+      "default": false
+    },
+    "fadeEffect": {
+      "type": "boolean",
+      "default": false
+    },
+    "cubeEffect": {
+      "type": "boolean",
+      "default": false
+    },
+    "flipEffect": {
+      "type": "boolean",
+      "default": false
+    },
+    "coverflowEffect": {
+      "type": "boolean",
+      "default": false
     }
   },
   "textdomain": "wpzoom-slideshow-block",

@@ -11,9 +11,8 @@ import { __ } from '@wordpress/i18n';
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
-import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, ToggleControl, RangeControl } from '@wordpress/components';
+import { useBlockProps, InnerBlocks, InspectorControls } from '@wordpress/block-editor';
+import { PanelBody, ToggleControl, RangeControl, SelectControl } from '@wordpress/components';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -37,7 +36,11 @@ import { useEffect } from '@wordpress/element';
  * @return {Element} Element to render.
  */
 export default function Edit({ attributes, setAttributes }) {
-	const { useNavigation, usePagination, autoplay, loop, speed, spaceBetween, slidesPerView, uniqueId } = attributes;
+	const {
+		useNavigation, usePagination, useScrollbar, autoplay, loop,
+		speed, spaceBetween, slidesPerView, effect, direction,
+		freeMode, centeredSlides, cssMode, gridRows, controller, uniqueId
+	} = attributes;
 
 	// Generate a unique ID only if one doesn't already exist
 	useEffect(() => {
@@ -62,6 +65,11 @@ export default function Edit({ attributes, setAttributes }) {
 						onChange={(value) => setAttributes({ usePagination: value })}
 					/>
 					<ToggleControl
+						label="Scrollbar"
+						checked={useScrollbar}
+						onChange={(value) => setAttributes({ useScrollbar: value })}
+					/>
+					<ToggleControl
 						label="Autoplay"
 						checked={autoplay}
 						onChange={(value) => setAttributes({ autoplay: value })}
@@ -70,6 +78,26 @@ export default function Edit({ attributes, setAttributes }) {
 						label="Loop"
 						checked={loop}
 						onChange={(value) => setAttributes({ loop: value })}
+					/>
+					<ToggleControl
+						label="Free Mode"
+						checked={freeMode}
+						onChange={(value) => setAttributes({ freeMode: value })}
+					/>
+					<ToggleControl
+						label="Centered Slides"
+						checked={centeredSlides}
+						onChange={(value) => setAttributes({ centeredSlides: value })}
+					/>
+					<ToggleControl
+						label="CSS Mode"
+						checked={cssMode}
+						onChange={(value) => setAttributes({ cssMode: value })}
+					/>
+					<ToggleControl
+						label="Controller"
+						checked={controller}
+						onChange={(value) => setAttributes({ controller: value })}
 					/>
 					<RangeControl
 						label="Speed (ms)"
@@ -91,6 +119,34 @@ export default function Edit({ attributes, setAttributes }) {
 						onChange={(value) => setAttributes({ slidesPerView: value })}
 						min={1}
 						max={5}
+					/>
+					<RangeControl
+						label="Grid Rows"
+						value={gridRows}
+						onChange={(value) => setAttributes({ gridRows: value })}
+						min={1}
+						max={5}
+					/>
+					<SelectControl
+						label="Effect"
+						value={effect}
+						options={[
+							{ label: 'Slide', value: 'slide' },
+							{ label: 'Fade', value: 'fade' },
+							{ label: 'Cube', value: 'cube' },
+							{ label: 'Flip', value: 'flip' },
+							{ label: 'Coverflow', value: 'coverflow' }
+						]}
+						onChange={(value) => setAttributes({ effect: value })}
+					/>
+					<SelectControl
+						label="Direction"
+						value={direction}
+						options={[
+							{ label: 'Horizontal', value: 'horizontal' },
+							{ label: 'Vertical', value: 'vertical' }
+						]}
+						onChange={(value) => setAttributes({ direction: value })}
 					/>
 				</PanelBody>
 			</InspectorControls>
