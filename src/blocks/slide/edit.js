@@ -22,7 +22,17 @@ import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 import './editor.scss';
 
 // Only allow core/cover blocks to be added
-const ALLOWED_BLOCKS = ['core/cover'];
+const ALLOWED_BLOCKS = [
+	'core/cover',
+	'core/heading',
+	'core/paragraph',
+	'core/quote',
+	'core/list',
+	'core/button',
+	'core/table',
+	'core/image',
+	'core/video'
+];
 
 /**
  * The edit function describes the structure of your block in the context of the
