@@ -71,6 +71,13 @@ In the Block editor click on the "+" button to add a new button. Search for "Vid
 
 == Changelog ==
 
+= 1.1.3 =
+* Added custom font for block icons
+
+= 1.1.2 =
+* Added more slideshow configurations
+* Added ability to include multiple core blocks inside slides
+
 = 1.1.1 =
 * Added preview for self-hosted videos
 

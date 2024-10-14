@@ -3,7 +3,7 @@
  * Plugin Name: WPZOOM Slideshow Block
  * Plugin URI: https://wordpress.org/plugins/wpzoom-slideshow-block/
  * Description: Quickly add a Gutenberg slideshow block with fast performance.
- * Version: 1.1.2
+ * Version: 1.1.3
  * Author: WPZOOM
  * Author URI: https://www.wpzoom.com/
  * Text Domain: wpzoom-slideshow-block
@@ -162,6 +162,12 @@ class Plugin {
 		}
 	}
 
+	/**
+	 * Enqueues the icons font for the admin.
+	 * 
+	 * @since  1.1.3
+	 * @return void
+	 */
 	public function enqueue_icons_font() {
 		// Register Swiper styles and scripts.
 		wp_register_style(
