@@ -5,7 +5,7 @@
 	"version": "0.1.1",
 	"title": "Slideshow",
 	"category": "wpzoom-blocks",
-	"icon": "columns",
+	"icon": "wpzoom-slideshow",
 	"description": "Slideshow block with customizable settings.",
 	"supports": {
 		"html": false

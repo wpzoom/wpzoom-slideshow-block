@@ -5,7 +5,7 @@
 	"version": "0.1.0",
 	"title": "Slide",
 	"category": "wpzoom-blocks",
-	"icon": "column",
+	"icon": "wpzoom-slideshow",
 	"description": "Slide block.",
 	"supports": {
 		"html": false
