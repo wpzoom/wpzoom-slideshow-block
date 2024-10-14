@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
             };
         }
 
+
         const swiper = new Swiper(`#${slideshow.id}`, {
             ...swiperOptions, // Spread the options from the data attribute
         });
