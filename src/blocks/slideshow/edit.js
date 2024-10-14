@@ -22,8 +22,13 @@ import { PanelBody, ToggleControl, RangeControl, SelectControl } from '@wordpres
  */
 import './editor.scss';
 
-// Only allow core/cover blocks to be added
+// Only allow wpzoom/slide blocks to be added
 const ALLOWED_BLOCKS = ['wpzoom/slide'];
+
+// Define the template with a single slide block
+const SLIDESHOW_TEMPLATE = [
+	['wpzoom/slide', {}] // Automatically adds a slide block
+];
 
 import { useEffect } from '@wordpress/element';
 
@@ -53,7 +58,7 @@ export default function Edit({ attributes, setAttributes }) {
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody title="Slideshow Settings" initialOpen={true}>
+				<PanelBody title={__("Slideshow Settings", "wpzoom-slideshow-block")} initialOpen={true}>
 					<ToggleControl
 						label="Navigation"
 						checked={useNavigation}
@@ -155,7 +160,8 @@ export default function Edit({ attributes, setAttributes }) {
 				<p>{__('Slideshow Block', 'wpzoom-slideshow-block')}</p>
 				<InnerBlocks
 					allowedBlocks={ALLOWED_BLOCKS} // Limit to Slide blocks
-					templateLock={false}           // Allow freeform editing of slides
+					template={SLIDESHOW_TEMPLATE}   // Automatically adds a slide block
+					templateLock={false}            // Allow freeform editing of slides
 					renderAppender={InnerBlocks.ButtonBlockAppender} // Appender for adding more blocks
 				/>
 			</div>
