@@ -237,25 +237,4 @@ class Plugin {
 
 		return $classes;
 	}
-
-	/**
-	 * Renders the slideshow block.
-	 *
-	 * @since  1.1.2
-	 * @param  array $attributes The block attributes.
-	 * @return string            The rendered block content.
-	 */
-	public function render_slideshow_block( $attributes ) {
-		$slides = $attributes['slides'] ?? [];
-
-		// If there are no slides, return early.
-		if ( empty( $slides ) ) {
-			return '';
-		}
-
-		// Render the block.
-		ob_start();
-		include $this->plugin_path . 'dist/blocks/slideshow/block.php';
-		return ob_get_clean();
-	}
 }
