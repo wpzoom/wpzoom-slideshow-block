@@ -25,9 +25,33 @@ import './editor.scss';
 // Only allow wpzoom/slide blocks to be added
 const ALLOWED_BLOCKS = ['wpzoom/slide'];
 
-// Define the template with a single slide block
+// Define the template for initial slideshow creation with two slides
 const SLIDESHOW_TEMPLATE = [
-	['wpzoom/slide', {}] // Automatically adds a slide block
+	[
+		'wpzoom/slide',
+		{},
+		[
+			['core/image', {}]
+		]
+	],
+	[
+		'wpzoom/slide',
+		{},
+		[
+			['core/video', {}]
+		]
+	]
+];
+
+// Define the template for adding new slides with a locked core/cover block
+const NEW_SLIDE_TEMPLATE = [
+	[
+		'wpzoom/slide',
+		{},
+		[
+			['core/cover', {}]
+		]
+	],
 ];
 
 import { useEffect } from '@wordpress/element';
@@ -160,9 +184,14 @@ export default function Edit({ attributes, setAttributes }) {
 				<p>{__('Slideshow Block', 'wpzoom-slideshow-block')}</p>
 				<InnerBlocks
 					allowedBlocks={ALLOWED_BLOCKS} // Limit to Slide blocks
-					template={SLIDESHOW_TEMPLATE}   // Automatically adds a slide block
+					template={SLIDESHOW_TEMPLATE}   // Automatically adds two slides with image and video blocks
 					templateLock={false}            // Allow freeform editing of slides
-					renderAppender={InnerBlocks.ButtonBlockAppender} // Appender for adding more blocks
+					renderAppender={() => (
+						<InnerBlocks.ButtonBlockAppender
+							template={NEW_SLIDE_TEMPLATE} // New slides get locked core/cover block
+							allowedBlocks={['wpzoom/slide']}
+						/>
+					)}
 				/>
 			</div>
 		</>
