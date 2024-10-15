@@ -1,2 +1,2 @@
-(()=>{"use strict";var o={790:o=>{o.exports=window.ReactJSXRuntime},715:o=>{o.exports=window.wp.blockEditor}},t={};function e(r){var n=t[r];if(void 0!==n)return n.exports;var w=t[r]={exports:{}};return o[r](w,w.exports,e),w.exports}window.wp.i18n,e(715),window.wp.components,window.wp.element,e(790)})();
+(()=>{"use strict";var o={790:o=>{o.exports=window.ReactJSXRuntime},715:o=>{o.exports=window.wp.blockEditor}},t={};function w(e){var n=t[e];if(void 0!==n)return n.exports;var r=t[e]={exports:{}};return o[e](r,r.exports,w),r.exports}window.wp.i18n,w(715),window.wp.components,window.wp.element,window.wp.data,w(790)})();
 //# sourceMappingURL=edit.js.map

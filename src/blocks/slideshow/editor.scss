@@ -4,20 +4,31 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-.wp-block-wpzoom-slideshow .append-slide-button {
-	margin-top: 15px;
+.wp-block-wpzoom-slideshow {
+	border: 1px dashed #dddddd;
+	padding: 4px;
 
-	button {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-
-		&::after {
-			content: "Add Slide";
-			font-size: 14px;
-			font-weight: 500;
-			line-height: 24px;
-		}
+	.toggle-edit-mode {
+		position: absolute;
+		right: 5px;
+		top: -42px;
+		z-index: 9;
 	}
 
+	.append-slide-button {
+		margin-top: 15px;
+
+		button {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+
+			&::after {
+				content: "Add Slide";
+				font-size: 14px;
+				font-weight: 500;
+				line-height: 24px;
+			}
+		}
+	}
 }
