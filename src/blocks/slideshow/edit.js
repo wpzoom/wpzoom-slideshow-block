@@ -11,8 +11,11 @@ import { __ } from '@wordpress/i18n';
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import { useBlockProps, InnerBlocks, InspectorControls, ButtonBlockAppender } from '@wordpress/block-editor';
-import { PanelBody, ToggleControl, RangeControl, SelectControl } from '@wordpress/components';
+import { useBlockProps, InnerBlocks, InspectorControls, BlockControls } from '@wordpress/block-editor';
+import { PanelBody, ToggleControl, RangeControl, SelectControl, Button } from '@wordpress/components';
+import { createBlock } from '@wordpress/blocks';
+import { useDispatch } from '@wordpress/data';  // To insert blocks programmatically
+import { useEffect } from '@wordpress/element';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -43,33 +46,26 @@ const SLIDESHOW_TEMPLATE = [
 	]
 ];
 
-// Define the template for adding new slides with a locked core/cover block
-const NEW_SLIDE_TEMPLATE = [
-	[
-		'wpzoom/slide',
-		{},
-		[
-			['core/cover', {}]
-		]
-	],
-];
+// Define the block structure for adding new slides with a locked core/cover block
+const createNewSlideBlock = () => {
+	return createBlock('wpzoom/slide', {}, [
+		createBlock('core/cover', {
+			lock: {
+				remove: true,
+				move: true
+			}
+		}, []), // Creates an empty cover block inside the slide
+	]);
+};
 
-import { useEffect } from '@wordpress/element';
-
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
- *
- * @return {Element} Element to render.
- */
 export default function Edit({ clientId, attributes, setAttributes }) {
 	const {
 		useNavigation, usePagination, useScrollbar, autoplay, loop,
 		speed, spaceBetween, slidesPerView, effect, direction,
 		freeMode, centeredSlides, cssMode, gridRows, controller, uniqueId
 	} = attributes;
+
+	const { insertBlock } = useDispatch('core/block-editor'); // Allows programmatic block insertion
 
 	// Generate a unique ID only if one doesn't already exist
 	useEffect(() => {
@@ -78,6 +74,12 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 			setAttributes({ uniqueId: newUniqueId });
 		}
 	}, [uniqueId]);
+
+	// Function to handle adding a new slide with a locked cover block
+	const addNewSlide = () => {
+		const newSlide = createNewSlideBlock();
+		insertBlock(newSlide, undefined, clientId); // Inserts the new slide block
+	};
 
 	return (
 		<>
@@ -183,12 +185,18 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 			<div {...useBlockProps()}>
 				<p>{__('Slideshow Block', 'wpzoom-slideshow-block')}</p>
 				<InnerBlocks
-					allowedBlocks={ALLOWED_BLOCKS} // Limit to Slide blocks
+					allowedBlocks={ALLOWED_BLOCKS}  // Limit to Slide blocks
 					template={SLIDESHOW_TEMPLATE}   // Automatically adds two slides with image and video blocks
 					templateLock={false}            // Allow freeform editing of slides
+					renderAppender={false}          // Hide the default "Add Block" button
 				/>
 				<div className="append-slide-button">
-					<ButtonBlockAppender rootClientId={clientId} />
+					<Button
+						variant="primary"
+						onClick={addNewSlide} // Handle click to add a new slide with a cover
+					>
+						{__('Add Slide', 'wpzoom-slideshow-block')}
+					</Button>
 				</div>
 			</div>
 		</>

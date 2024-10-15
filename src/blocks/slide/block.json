@@ -5,6 +5,9 @@
 	"version": "0.1.0",
 	"title": "Slide",
 	"category": "wpzoom-blocks",
+	"parent": [
+		"wpzoom/slideshow"
+	],
 	"icon": "wpzoom-slideshow",
 	"description": "Slide block.",
 	"supports": {

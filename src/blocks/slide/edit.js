@@ -48,7 +48,6 @@ export default function Edit() {
 			<InnerBlocks
 				allowedBlocks={ALLOWED_BLOCKS}
 				templateLock={false}
-				renderAppender={InnerBlocks.ButtonBlockAppender}
 			/>
 		</div>
 	);
