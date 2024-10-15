@@ -34,6 +34,22 @@ const ALLOWED_BLOCKS = [
 	'core/video'
 ];
 
+const SLIDE_TEMPLATE = [
+	[
+		'core/cover',
+		{
+			overlayColor: 'pale-cyan-blue',
+			lock: {
+				move: true,
+				remove: true,
+			}
+		},
+		[
+			['core/heading', { placeholder: 'Your title here' }]
+		]
+	]
+];
+
 /**
  * The edit function describes the structure of your block in the context of the
  * editor. This represents what the editor will render when the block is used.
@@ -47,6 +63,7 @@ export default function Edit() {
 		<div {...useBlockProps()}>
 			<InnerBlocks
 				allowedBlocks={ALLOWED_BLOCKS}
+				template={SLIDE_TEMPLATE}
 				templateLock={false}
 			/>
 		</div>

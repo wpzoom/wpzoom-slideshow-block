@@ -11,10 +11,8 @@ import { __ } from '@wordpress/i18n';
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import { useBlockProps, InnerBlocks, InspectorControls, BlockControls } from '@wordpress/block-editor';
-import { PanelBody, ToggleControl, RangeControl, SelectControl, Button } from '@wordpress/components';
-import { createBlock } from '@wordpress/blocks';
-import { useDispatch } from '@wordpress/data';  // To insert blocks programmatically
+import { useBlockProps, InnerBlocks, InspectorControls, ButtonBlockAppender } from '@wordpress/block-editor';
+import { PanelBody, ToggleControl, RangeControl, SelectControl } from '@wordpress/components';
 import { useEffect } from '@wordpress/element';
 
 /**
@@ -46,26 +44,12 @@ const SLIDESHOW_TEMPLATE = [
 	]
 ];
 
-// Define the block structure for adding new slides with a locked core/cover block
-const createNewSlideBlock = () => {
-	return createBlock('wpzoom/slide', {}, [
-		createBlock('core/cover', {
-			lock: {
-				remove: true,
-				move: true
-			}
-		}, []), // Creates an empty cover block inside the slide
-	]);
-};
-
 export default function Edit({ clientId, attributes, setAttributes }) {
 	const {
 		useNavigation, usePagination, useScrollbar, autoplay, loop,
 		speed, spaceBetween, slidesPerView, effect, direction,
 		freeMode, centeredSlides, cssMode, gridRows, controller, uniqueId
 	} = attributes;
-
-	const { insertBlock } = useDispatch('core/block-editor'); // Allows programmatic block insertion
 
 	// Generate a unique ID only if one doesn't already exist
 	useEffect(() => {
@@ -74,12 +58,6 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 			setAttributes({ uniqueId: newUniqueId });
 		}
 	}, [uniqueId]);
-
-	// Function to handle adding a new slide with a locked cover block
-	const addNewSlide = () => {
-		const newSlide = createNewSlideBlock();
-		insertBlock(newSlide, undefined, clientId); // Inserts the new slide block
-	};
 
 	return (
 		<>
@@ -191,12 +169,7 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 					renderAppender={false}          // Hide the default "Add Block" button
 				/>
 				<div className="append-slide-button">
-					<Button
-						variant="primary"
-						onClick={addNewSlide} // Handle click to add a new slide with a cover
-					>
-						{__('Add Slide', 'wpzoom-slideshow-block')}
-					</Button>
+					<ButtonBlockAppender rootClientId={clientId} />
 				</div>
 			</div>
 		</>
