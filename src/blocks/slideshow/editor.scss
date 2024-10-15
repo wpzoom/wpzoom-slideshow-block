@@ -4,6 +4,20 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-.wp-block-create-block-slideshow {
-	border: 1px dotted #f00;
+.wp-block-wpzoom-slideshow .append-slide-button {
+	margin-top: 15px;
+
+	button {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+
+		&::after {
+			content: "Add Slide";
+			font-size: 14px;
+			font-weight: 500;
+			line-height: 24px;
+		}
+	}
+
 }

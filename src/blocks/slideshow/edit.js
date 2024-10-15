@@ -11,7 +11,7 @@ import { __ } from '@wordpress/i18n';
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import { useBlockProps, InnerBlocks, InspectorControls } from '@wordpress/block-editor';
+import { useBlockProps, InnerBlocks, InspectorControls, ButtonBlockAppender } from '@wordpress/block-editor';
 import { PanelBody, ToggleControl, RangeControl, SelectControl } from '@wordpress/components';
 
 /**
@@ -64,7 +64,7 @@ import { useEffect } from '@wordpress/element';
  *
  * @return {Element} Element to render.
  */
-export default function Edit({ attributes, setAttributes }) {
+export default function Edit({ clientId, attributes, setAttributes }) {
 	const {
 		useNavigation, usePagination, useScrollbar, autoplay, loop,
 		speed, spaceBetween, slidesPerView, effect, direction,
@@ -186,13 +186,10 @@ export default function Edit({ attributes, setAttributes }) {
 					allowedBlocks={ALLOWED_BLOCKS} // Limit to Slide blocks
 					template={SLIDESHOW_TEMPLATE}   // Automatically adds two slides with image and video blocks
 					templateLock={false}            // Allow freeform editing of slides
-					renderAppender={() => (
-						<InnerBlocks.ButtonBlockAppender
-							template={NEW_SLIDE_TEMPLATE} // New slides get locked core/cover block
-							allowedBlocks={['wpzoom/slide']}
-						/>
-					)}
 				/>
+				<div className="append-slide-button">
+					<ButtonBlockAppender rootClientId={clientId} />
+				</div>
 			</div>
 		</>
 	);
