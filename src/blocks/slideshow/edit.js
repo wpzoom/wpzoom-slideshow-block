@@ -37,15 +37,13 @@ const SLIDESHOW_TEMPLATE = [
 			[
 				'core/cover',
 				{
-					overlayColor: 'vivid-cyan-blue',
+					url: wpzoomSlideshowData.pluginUrl + 'assets/media/demo.jpg',
+					customOverlayColor: 'rgba(0, 0, 0, 0.3)',
 					lock: {
 						move: true,
 						remove: true,
 					}
-				},
-				[
-					['core/image', {}, []]
-				]
+				}
 			]
 		]
 	],
@@ -56,15 +54,14 @@ const SLIDESHOW_TEMPLATE = [
 			[
 				'core/cover',
 				{
-					overlayColor: 'light-green-cyan',
+					backgroundType: 'video',
+					url: wpzoomSlideshowData.pluginUrl + 'assets/media/demo.mp4',
+					customOverlayColor: 'rgba(0, 0, 0, 0.3)',
 					lock: {
 						move: true,
 						remove: true,
 					}
-				},
-				[
-					['core/video', {}, []]
-				]
+				}
 			]
 		]
 	]

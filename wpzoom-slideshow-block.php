@@ -97,6 +97,7 @@ class Plugin {
 		// Add the WPZOOM block category, if needed.
 		add_filter( 'block_categories_all', array( $this, 'block_categories' ), 10, 2 );
 		add_action( 'enqueue_block_assets', array( $this, 'enqueue_swiper_assets' ) );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_assets' ) );
 
 		// Add icons font for admin.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_icons_font' ) );
@@ -160,6 +161,13 @@ class Plugin {
 			wp_enqueue_style( 'wpzoom-swiper-css' );
 			wp_enqueue_script( 'wpzoom-swiper-js' );
 		}
+	}
+
+	function enqueue_editor_assets() {
+		wp_localize_script( 'wpzoom-slideshow-editor-script', 'wpzoomSlideshowData', array(
+			'isPro' => $this->is_pro(),
+			'pluginUrl' => $this->plugin_url,
+		) );
 	}
 
 	/**
