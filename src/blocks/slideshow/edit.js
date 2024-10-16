@@ -34,14 +34,38 @@ const SLIDESHOW_TEMPLATE = [
 		'wpzoom/slide',
 		{},
 		[
-			['core/image', {}]
+			[
+				'core/cover',
+				{
+					overlayColor: 'vivid-cyan-blue',
+					lock: {
+						move: true,
+						remove: true,
+					}
+				},
+				[
+					['core/image', {}, []]
+				]
+			]
 		]
 	],
 	[
 		'wpzoom/slide',
 		{},
 		[
-			['core/video', {}]
+			[
+				'core/cover',
+				{
+					overlayColor: 'light-green-cyan',
+					lock: {
+						move: true,
+						remove: true,
+					}
+				},
+				[
+					['core/video', {}, []]
+				]
+			]
 		]
 	]
 ];
