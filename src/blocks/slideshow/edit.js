@@ -11,9 +11,9 @@ import { __ } from '@wordpress/i18n';
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import { store, useBlockProps, InnerBlocks, InspectorControls, ButtonBlockAppender } from '@wordpress/block-editor';
+import { store, useBlockProps, useInnerBlocksProps, InspectorControls, ButtonBlockAppender } from '@wordpress/block-editor';
 import { PanelBody, ToggleControl, RangeControl, SelectControl, Button } from '@wordpress/components';
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect, useRef, useState } from '@wordpress/element';
 import { useSelect } from "@wordpress/data";
 import { seen, edit } from '@wordpress/icons';
 
@@ -73,12 +73,20 @@ export default function Edit({ clientId, isSelected, attributes, setAttributes }
 		speed, spaceBetween, slidesPerView, effect, direction,
 		freeMode, centeredSlides, cssMode, gridRows, controller, uniqueId
 	} = attributes;
+	const blockInstance = useRef(null);
+	const swiperInstance = useRef(null);
 
 	// States for preview mode
 	const [previewMode, setPreviewMode] = useState(false);
 	const hasInnerBlocksSelected = useSelect(
 		(select) => select(store).hasSelectedInnerBlock(clientId, true)
 	);
+
+	const { children, ...innerBlockProps } = useInnerBlocksProps(useBlockProps(), {
+		allowedBlocks: ALLOWED_BLOCKS,
+		template: SLIDESHOW_TEMPLATE,
+		renderAppender: false
+	});
 
 	// Generate a unique ID only if one doesn't already exist
 	useEffect(() => {
@@ -87,6 +95,33 @@ export default function Edit({ clientId, isSelected, attributes, setAttributes }
 			setAttributes({ uniqueId: newUniqueId });
 		}
 	}, [uniqueId]);
+
+	useEffect(() => {
+		if (!previewMode) {
+			destroySlideshow();
+			return;
+		}
+
+		initSlideshow();
+	}, [previewMode]);
+
+
+	function initSlideshow() {
+		const node = blockInstance.current?.querySelector('.swiper')
+
+		swiperInstance.current?.destroy?.();
+		swiperInstance.current = new Swiper(node, {
+			slidesPerView: 1,
+			observeSlideChildren: true,
+			preventClicks: false,
+			allowTouchMove: false,
+			...attributes
+		});
+	}
+
+	function destroySlideshow() {
+		swiperInstance.current?.destroy?.();
+	}
 
 	return (
 		<>
@@ -198,12 +233,21 @@ export default function Edit({ clientId, isSelected, attributes, setAttributes }
 						}
 					</div>
 				)}
-				<InnerBlocks
-					allowedBlocks={ALLOWED_BLOCKS}  // Limit to Slide blocks
-					template={SLIDESHOW_TEMPLATE}   // Automatically adds two slides with image and video blocks
-					templateLock={false}            // Allow freeform editing of slides
-					renderAppender={false}          // Hide the default "Add Block" button
-				/>
+				<div className='slideshow-container' ref={blockInstance}>
+					{previewMode ? (
+						<div id={uniqueId} className="swiper">
+							<div className="swiper-wrapper">{children}</div>
+							{usePagination && <div className="swiper-pagination"></div>}
+							{useNavigation && (
+								<>
+									<div className="swiper-button-prev"></div>
+									<div className="swiper-button-next"></div>
+								</>
+							)}
+							{useScrollbar && <div className="swiper-scrollbar"></div>}
+						</div>
+					) : children}
+				</div>
 				<div className="append-slide-button">
 					<ButtonBlockAppender rootClientId={clientId} />
 				</div>

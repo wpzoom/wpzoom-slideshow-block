@@ -60,12 +60,14 @@ const SLIDE_TEMPLATE = [
  */
 export default function Edit() {
 	return (
-		<div {...useBlockProps()}>
-			<InnerBlocks
-				allowedBlocks={ALLOWED_BLOCKS}
-				template={SLIDE_TEMPLATE}
-				templateLock={false}
-			/>
+		<div className="swiper-slide">
+			<div {...useBlockProps()}>
+				<InnerBlocks
+					allowedBlocks={ALLOWED_BLOCKS}
+					template={SLIDE_TEMPLATE}
+					templateLock={false}
+				/>
+			</div>
 		</div>
 	);
 }
