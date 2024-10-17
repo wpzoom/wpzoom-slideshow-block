@@ -1,28 +1,10 @@
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
- */
 import { __ } from '@wordpress/i18n';
-
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
 import { store, useBlockProps, useInnerBlocksProps, InspectorControls, ButtonBlockAppender } from '@wordpress/block-editor';
 import { PanelBody, ToggleControl, RangeControl, SelectControl, Button } from '@wordpress/components';
 import { useEffect, useRef, useState } from '@wordpress/element';
 import { useSelect } from "@wordpress/data";
 import { seen, edit } from '@wordpress/icons';
-
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * Those files can contain any CSS code that gets applied to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
+import initSlideshow from './script';
 import './editor.scss';
 
 // Only allow wpzoom/slide blocks to be added
@@ -88,6 +70,26 @@ export default function Edit({ clientId, isSelected, attributes, setAttributes }
 		renderAppender: false
 	});
 
+	// Build swiper options to be used in the script.js
+	const swiperOptions = JSON.stringify({
+		useNavigation,
+		usePagination,
+		useScrollbar,
+		autoplay,
+		loop,
+		speed,
+		spaceBetween,
+		slidesPerView,
+		effect,
+		direction,
+		freeMode,
+		centeredSlides,
+		cssMode,
+		grid: {
+			rows: gridRows
+		}
+	});
+
 	// Generate a unique ID only if one doesn't already exist
 	useEffect(() => {
 		if (!uniqueId) {
@@ -98,30 +100,13 @@ export default function Edit({ clientId, isSelected, attributes, setAttributes }
 
 	useEffect(() => {
 		if (!previewMode) {
-			destroySlideshow();
+			swiperInstance.current?.destroy?.();
 			return;
 		}
 
-		initSlideshow();
+		const node = blockInstance.current?.querySelector('.swiper');
+		swiperInstance.current = initSlideshow(node);
 	}, [previewMode]);
-
-
-	function initSlideshow() {
-		const node = blockInstance.current?.querySelector('.swiper')
-
-		swiperInstance.current?.destroy?.();
-		swiperInstance.current = new Swiper(node, {
-			slidesPerView: 1,
-			observeSlideChildren: true,
-			preventClicks: false,
-			allowTouchMove: false,
-			...attributes
-		});
-	}
-
-	function destroySlideshow() {
-		swiperInstance.current?.destroy?.();
-	}
 
 	return (
 		<>
@@ -235,7 +220,7 @@ export default function Edit({ clientId, isSelected, attributes, setAttributes }
 				)}
 				<div className='slideshow-container' ref={blockInstance}>
 					{previewMode ? (
-						<div id={uniqueId} className="swiper">
+						<div id={uniqueId} className="swiper" data-swiper={swiperOptions}>
 							<div className="swiper-wrapper">{children}</div>
 							{usePagination && <div className="swiper-pagination"></div>}
 							{useNavigation && (
@@ -249,7 +234,7 @@ export default function Edit({ clientId, isSelected, attributes, setAttributes }
 					) : children}
 				</div>
 				<div className="append-slide-button">
-					<ButtonBlockAppender rootClientId={clientId} />
+					<ButtonBlockAppender onClick={() => setPreviewMode(false)} rootClientId={clientId} />
 				</div>
 			</div>
 		</>
