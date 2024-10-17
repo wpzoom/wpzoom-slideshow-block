@@ -64,6 +64,13 @@ export default function Edit({ clientId, isSelected, attributes, setAttributes }
 		(select) => select(store).hasSelectedInnerBlock(clientId, true)
 	);
 
+	// Track the number of inner blocks (slides)
+	const innerBlocksCount = useSelect(
+		(select) => select(store).getBlock(clientId)?.innerBlocks.length || 0,
+		[clientId]
+	);
+
+	// Track inner blocks props
 	const { children, ...innerBlockProps } = useInnerBlocksProps(useBlockProps(), {
 		allowedBlocks: ALLOWED_BLOCKS,
 		template: SLIDESHOW_TEMPLATE,
@@ -98,6 +105,19 @@ export default function Edit({ clientId, isSelected, attributes, setAttributes }
 		}
 	}, [uniqueId]);
 
+	// Set preview mode to false when slides are added / removed
+	useEffect(() => {
+		setPreviewMode(false);
+	}, [innerBlocksCount]);
+
+	// Update swiper instance when options change
+	useEffect(() => {
+		if (previewMode) {
+			console.log('swiperOptions', swiperOptions);
+		}
+	}, [swiperOptions]);
+
+	// Initialize the Swiper instance when preview mode is enabled
 	useEffect(() => {
 		if (!previewMode) {
 			swiperInstance.current?.destroy?.();
@@ -212,10 +232,11 @@ export default function Edit({ clientId, isSelected, attributes, setAttributes }
 			<div {...useBlockProps()}>
 				{(isSelected || hasInnerBlocksSelected) && (
 					<div className="toggle-edit-mode">
-						{!previewMode ?
-							<Button onClick={() => setPreviewMode(true)} variant="primary" icon={seen}>Switch to preview mode</Button> :
+						{!previewMode ? (
+							<Button onClick={() => setPreviewMode(true)} variant="primary" icon={seen}>Switch to preview mode</Button>
+						) : (
 							<Button onClick={() => setPreviewMode(false)} variant="primary" icon={edit}>Switch to edit mode</Button>
-						}
+						)}
 					</div>
 				)}
 				<div className='slideshow-container' ref={blockInstance}>
@@ -234,7 +255,7 @@ export default function Edit({ clientId, isSelected, attributes, setAttributes }
 					) : children}
 				</div>
 				<div className="append-slide-button">
-					<ButtonBlockAppender onClick={() => setPreviewMode(false)} rootClientId={clientId} />
+					<ButtonBlockAppender rootClientId={clientId} />
 				</div>
 			</div>
 		</>
