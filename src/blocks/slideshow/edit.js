@@ -113,7 +113,12 @@ export default function Edit({ clientId, isSelected, attributes, setAttributes }
 	// Update swiper instance when options change
 	useEffect(() => {
 		if (previewMode) {
-			console.log('swiperOptions', swiperOptions);
+			if (swiperInstance.current) {
+				swiperInstance.current.destroy(true, true); // Destroy with cleanup of DOM and events
+			}
+
+			const node = blockInstance.current?.querySelector('.swiper');
+			swiperInstance.current = initSlideshow(node);
 		}
 	}, [swiperOptions]);
 
