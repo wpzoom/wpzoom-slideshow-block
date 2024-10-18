@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { store, useBlockProps, useInnerBlocksProps, InspectorControls, ButtonBlockAppender } from '@wordpress/block-editor';
-import { PanelBody, ToggleControl, RangeControl, SelectControl, Button } from '@wordpress/components';
+import { PanelBody, ToggleControl, RangeControl, SelectControl, Button, __experimentalUnitControl as UnitControl } from '@wordpress/components';
 import { useEffect, useRef, useState } from '@wordpress/element';
 import { useSelect } from "@wordpress/data";
 import { seen, edit } from '@wordpress/icons';
@@ -53,7 +53,8 @@ export default function Edit({ clientId, isSelected, attributes, setAttributes }
 	const {
 		useNavigation, usePagination, useScrollbar, autoplay, loop,
 		speed, spaceBetween, slidesPerView, effect, direction,
-		freeMode, centeredSlides, cssMode, gridRows, controller, uniqueId
+		freeMode, centeredSlides, cssMode, gridRows, controller, uniqueId,
+		minHeight
 	} = attributes;
 	const blockInstance = useRef(null);
 	const swiperInstance = useRef(null);
@@ -234,10 +235,23 @@ export default function Edit({ clientId, isSelected, attributes, setAttributes }
 						]}
 						onChange={(value) => setAttributes({ direction: value })}
 					/>
+					<UnitControl
+						label="Min Height"
+						value={minHeight}
+						onChange={(value) => setAttributes({ minHeight: value })}
+						units={[
+							{ label: 'px', value: 'px', default: 300 },
+							{ label: '%', value: '%', default: 10 },
+							{ label: 'em', value: 'em', default: 1 },
+							{ label: 'rem', value: 'rem', default: 1 },
+							{ label: 'vw', value: 'vw', default: 10 },
+							{ label: 'vh', value: 'vh', default: 10 }
+						]}
+					/>
 				</PanelBody>
 			</InspectorControls>
 
-			<div {...useBlockProps()}>
+			<div {...useBlockProps()} style={{ minHeight }}>
 				{(isSelected || hasInnerBlocksSelected) && (
 					<div className="toggle-edit-mode">
 						{!previewMode ? (

@@ -89,6 +89,10 @@
     "coverflowEffect": {
       "type": "boolean",
       "default": false
+    },
+    "minHeight": {
+      "type": "string",
+      "default": "300px"
     }
   },
   "textdomain": "wpzoom-slideshow-block",
