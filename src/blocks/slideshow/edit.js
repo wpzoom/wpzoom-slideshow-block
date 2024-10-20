@@ -54,7 +54,7 @@ export default function Edit({ clientId, isSelected, attributes, setAttributes }
 		useNavigation, usePagination, useScrollbar, autoplay, loop,
 		speed, spaceBetween, slidesPerView, effect, direction,
 		freeMode, centeredSlides, cssMode, gridRows, controller, uniqueId,
-		minHeight
+		fullHeight, minHeight
 	} = attributes;
 	const blockInstance = useRef(null);
 	const swiperInstance = useRef(null);
@@ -235,23 +235,30 @@ export default function Edit({ clientId, isSelected, attributes, setAttributes }
 						]}
 						onChange={(value) => setAttributes({ direction: value })}
 					/>
-					<UnitControl
-						label="Min Height"
-						value={minHeight}
-						onChange={(value) => setAttributes({ minHeight: value })}
-						units={[
-							{ label: 'px', value: 'px', default: 300 },
-							{ label: '%', value: '%', default: 10 },
-							{ label: 'em', value: 'em', default: 1 },
-							{ label: 'rem', value: 'rem', default: 1 },
-							{ label: 'vw', value: 'vw', default: 10 },
-							{ label: 'vh', value: 'vh', default: 10 }
-						]}
+					<ToggleControl
+						label={__("Full Height", "wpzoom-slideshow-block")}
+						checked={fullHeight}
+						onChange={(value) => setAttributes({ fullHeight: value })}
 					/>
+					{!fullHeight && (
+						<UnitControl
+							label="Min Height"
+							value={minHeight}
+							onChange={(value) => setAttributes({ minHeight: value })}
+							units={[
+								{ label: 'px', value: 'px', default: 300 },
+								{ label: '%', value: '%', default: 10 },
+								{ label: 'em', value: 'em', default: 1 },
+								{ label: 'rem', value: 'rem', default: 1 },
+								{ label: 'vw', value: 'vw', default: 10 },
+								{ label: 'vh', value: 'vh', default: 10 }
+							]}
+						/>
+					)}
 				</PanelBody>
 			</InspectorControls>
 
-			<div {...useBlockProps()} style={{ minHeight }}>
+			<div {...useBlockProps()} style={{ minHeight: fullHeight ? '100vh' : minHeight }}>
 				{(isSelected || hasInnerBlocksSelected) && (
 					<div className="toggle-edit-mode">
 						{!previewMode ? (
