@@ -4,7 +4,8 @@ export default function save({ attributes }) {
 	const {
 		useNavigation, usePagination, useScrollbar, autoplay, loop,
 		speed, spaceBetween, slidesPerView, effect, direction,
-		freeMode, centeredSlides, cssMode, gridRows, uniqueId
+		freeMode, centeredSlides, cssMode, gridRows, controller, uniqueId,
+		fullHeight, minHeight
 	} = attributes;
 
 	// Build swiper options to be used in the script.js
@@ -27,11 +28,10 @@ export default function save({ attributes }) {
 		}
 	});
 
-	const blockProps = useBlockProps.save();
-	blockProps.className += ' swiper-wrapper'; // Adds the necessary Swiper class to wrapper
+	const blockProps = useBlockProps.save({ className: 'swiper-wrapper' });
 
 	return (
-		<div id={uniqueId} className={`slideshow-container swiper`} data-swiper={swiperOptions}>
+		<div id={uniqueId} className={`slideshow-container swiper`} data-swiper={swiperOptions} style={{ minHeight: fullHeight ? '100vh' : minHeight }}>
 			<div {...blockProps}>
 				<InnerBlocks.Content />
 			</div>

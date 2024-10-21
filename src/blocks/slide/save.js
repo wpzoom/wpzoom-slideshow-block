@@ -17,10 +17,8 @@ import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
  */
 export default function save() {
 	return (
-		<div className='swiper-slide'>
-			<div {...useBlockProps.save()}>
-				<InnerBlocks.Content />
-			</div>
+		<div {...useBlockProps.save({ className: 'swiper-slide' })}>
+			<InnerBlocks.Content />
 		</div>
 	);
 }

@@ -258,7 +258,7 @@ export default function Edit({ clientId, isSelected, attributes, setAttributes }
 				</PanelBody>
 			</InspectorControls>
 
-			<div {...useBlockProps()} style={{ minHeight: fullHeight ? '100vh' : minHeight }}>
+			<div {...useBlockProps()}>
 				{(isSelected || hasInnerBlocksSelected) && (
 					<div className="toggle-edit-mode">
 						{!previewMode ? (
@@ -270,7 +270,7 @@ export default function Edit({ clientId, isSelected, attributes, setAttributes }
 				)}
 				<div className='slideshow-container' ref={blockInstance}>
 					{previewMode ? (
-						<div id={uniqueId} className="swiper" data-swiper={swiperOptions}>
+						<div id={uniqueId} className="swiper" data-swiper={swiperOptions} style={{ minHeight: fullHeight ? '100vh' : minHeight }}>
 							<div className="swiper-wrapper">{children}</div>
 							{usePagination && <div className="swiper-pagination"></div>}
 							{useNavigation && (
